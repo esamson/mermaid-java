@@ -6,19 +6,19 @@ Internally uses GraalJS to execute the official Mermaid library and Apache Batik
 - **Rasterisation** — SVG to `BufferedImage` at any resolution
 - **Layout Extraction** — extract typed node/edge models from rendered SVGs
 - **Source Editing** — ANTLR-based roundtrip editing of Mermaid source code
-- **Java 8 compatible** — runs on JRE 8+
+- **Java 17 compatible** — runs on JRE 17+
 ## Installation
 ### Maven
 ```xml
 <dependency>
     <groupId>com.aresstack</groupId>
     <artifactId>mermaid-java</artifactId>
-    <version>0.2.0-beta.1</version>
+    <version>0.3.0-beta.1</version>
 </dependency>
 ```
 ### Gradle
 ```groovy
-implementation 'com.aresstack:mermaid-java:0.2.0-beta.1'
+implementation 'com.aresstack:mermaid-java:0.3.0-beta.1'
 ```
 ## Quick Start
 No external files or Node.js required — the Mermaid JS engine is bundled inside the JAR.
@@ -193,7 +193,7 @@ Output: `src/main/resources/mermaid/mermaid.min.js`
 ```bash
 ./gradlew build
 ```
-Requires Java 8 JDK.
+Requires Java 17 JDK or newer.
 ## License
 This project is licensed under the [MIT License](LICENSE).
 ### Bundled third-party software

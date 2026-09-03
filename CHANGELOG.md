@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ---
 
+## [0.3.0-beta.1] — 2026-09-03
+
+### Changed
+
+- **GraalJS upgraded 21.2.0 → 25.3.4.1** — migrated from the legacy artifacts (`org.graalvm.sdk:graal-sdk`, `org.graalvm.js:js`) to the current Maven coordinates: `org.graalvm.polyglot:polyglot` + `org.graalvm.polyglot:js-community` (the open-source-licensed GraalJS distribution)
+- **BREAKING: minimum Java version raised from 8 to 17** — GraalJS 25.x requires Java 17+; `maven.compiler.source`/`target` and Gradle `sourceCompatibility`/`targetCompatibility` are now 17
+- **Test JVMs disable Truffle-internal assertions** — Surefire and Gradle enable `-ea` by default, which trips a Truffle 25.x internal assertion (`DynamicObjectSupport`: "before != after") on JS property deletes inside dagre/graphlib; tests now run with `-da:com.oracle.truffle...` (matching production JVMs, which run without assertions) and `--enable-native-access=ALL-UNNAMED`
+
 ## [0.2.0-beta.2] — 2026-03-25
 
 ### Fixed
