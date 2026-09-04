@@ -48,7 +48,7 @@ Write-Host "[2/5] Updating README.md ..." -ForegroundColor Cyan
 $readmeBytes = [System.IO.File]::ReadAllBytes("$PWD\README.md")
 $readmeText  = [System.Text.Encoding]::UTF8.GetString($readmeBytes)
 $readmeNew   = $readmeText -replace '(<version>)[^<]+(</version>)', "`${1}$Version`${2}"
-$readmeNew   = $readmeNew  -replace "(implementation\s+'com\.aresstack:mermaid-java:)[^']+'", "`${1}$Version'"
+$readmeNew   = $readmeNew  -replace "(implementation\s+'ph\.samson:mermaid-java:)[^']+'", "`${1}$Version'"
 if ($readmeNew -ne $readmeText) {
     [System.IO.File]::WriteAllBytes("$PWD\README.md", [System.Text.Encoding]::UTF8.GetBytes($readmeNew))
     Write-Host "       README.md -> $Version" -ForegroundColor Green
@@ -77,5 +77,5 @@ git push origin HEAD --tags
 Write-Host ""
 Write-Host "Done! Tag $tag pushed." -ForegroundColor Green
 Write-Host "GitHub Actions workflow will now build and publish to Maven Central."
-Write-Host "Monitor: https://github.com/aresstack/mermaid-java/actions" -ForegroundColor Yellow
+Write-Host "Monitor: https://github.com/esamson/mermaid-java/actions" -ForegroundColor Yellow
 
