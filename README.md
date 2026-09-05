@@ -25,12 +25,12 @@ Internally uses GraalJS to execute the official Mermaid library and Apache Batik
 <dependency>
     <groupId>ph.samson</groupId>
     <artifactId>mermaid-java</artifactId>
-    <version>0.2.0-beta.3</version>
+    <version>0.2.0-beta.4</version>
 </dependency>
 ```
 ### Gradle
 ```groovy
-implementation 'ph.samson:mermaid-java:0.2.0-beta.3'
+implementation 'ph.samson:mermaid-java:0.2.0-beta.4'
 ```
 ## Quick Start
 No external files or Node.js required — the Mermaid JS engine is bundled inside the JAR.
