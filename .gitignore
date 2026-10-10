@@ -27,3 +27,6 @@ mermaid-test-result*.json
 # AI context
 .ai/
 
+# Local git worktrees
+.worktrees/
+

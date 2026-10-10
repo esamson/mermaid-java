@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 <#
 .SYNOPSIS
     Releases a new version to Maven Central via GitHub Actions.
@@ -6,11 +7,16 @@
     Updates the version in pom.xml and README.md, commits, tags, and pushes.
     The GitHub Actions workflow then builds and publishes to Maven Central.
 
+    Runs on Windows PowerShell 5.1 and on PowerShell 7+ (macOS, Linux).
+
 .PARAMETER Version
     The version to release, e.g. "0.1.0-beta.1", "0.2.0", "1.0.0"
 
 .EXAMPLE
     .\release.ps1 0.1.0-beta.1
+
+.EXAMPLE
+    ./release.ps1 0.1.0-beta.1
 #>
 param(
     [Parameter(Mandatory=$true, Position=0)]
@@ -21,8 +27,11 @@ param(
 $ErrorActionPreference = 'Stop'
 $tag = "v$Version"
 
+$pomPath    = Join-Path $PWD 'pom.xml'
+$readmePath = Join-Path $PWD 'README.md'
+
 # --- Preflight checks ---
-if (-not (Test-Path 'pom.xml')) {
+if (-not (Test-Path $pomPath)) {
     Write-Error "pom.xml not found. Run this script from the repository root."
 }
 
@@ -33,11 +42,11 @@ if ($existingTag) {
 
 # --- Update version in pom.xml ---
 Write-Host "[1/5] Updating pom.xml ..." -ForegroundColor Cyan
-$pomBytes  = [System.IO.File]::ReadAllBytes("$PWD\pom.xml")
+$pomBytes  = [System.IO.File]::ReadAllBytes($pomPath)
 $pomText   = [System.Text.Encoding]::UTF8.GetString($pomBytes)
 $pomNew    = $pomText -replace '(<version>)[^<]+(</version>([\s\S]*?)<packaging>)', "`${1}$Version`${2}"
 if ($pomNew -ne $pomText) {
-    [System.IO.File]::WriteAllBytes("$PWD\pom.xml", [System.Text.Encoding]::UTF8.GetBytes($pomNew))
+    [System.IO.File]::WriteAllBytes($pomPath, [System.Text.Encoding]::UTF8.GetBytes($pomNew))
     Write-Host "       pom.xml -> $Version" -ForegroundColor Green
 } else {
     Write-Host "       pom.xml already at $Version" -ForegroundColor Yellow
@@ -45,12 +54,12 @@ if ($pomNew -ne $pomText) {
 
 # --- Update version in README.md ---
 Write-Host "[2/5] Updating README.md ..." -ForegroundColor Cyan
-$readmeBytes = [System.IO.File]::ReadAllBytes("$PWD\README.md")
+$readmeBytes = [System.IO.File]::ReadAllBytes($readmePath)
 $readmeText  = [System.Text.Encoding]::UTF8.GetString($readmeBytes)
 $readmeNew   = $readmeText -replace '(<version>)[^<]+(</version>)', "`${1}$Version`${2}"
-$readmeNew   = $readmeNew  -replace "(implementation\s+'com\.aresstack:mermaid-java:)[^']+'", "`${1}$Version'"
+$readmeNew   = $readmeNew  -replace "(implementation\s+'ph\.samson:mermaid-java:)[^']+'", "`${1}$Version'"
 if ($readmeNew -ne $readmeText) {
-    [System.IO.File]::WriteAllBytes("$PWD\README.md", [System.Text.Encoding]::UTF8.GetBytes($readmeNew))
+    [System.IO.File]::WriteAllBytes($readmePath, [System.Text.Encoding]::UTF8.GetBytes($readmeNew))
     Write-Host "       README.md -> $Version" -ForegroundColor Green
 } else {
     Write-Host "       README.md already at $Version" -ForegroundColor Yellow
@@ -77,5 +86,5 @@ git push origin HEAD --tags
 Write-Host ""
 Write-Host "Done! Tag $tag pushed." -ForegroundColor Green
 Write-Host "GitHub Actions workflow will now build and publish to Maven Central."
-Write-Host "Monitor: https://github.com/aresstack/mermaid-java/actions" -ForegroundColor Yellow
+Write-Host "Monitor: https://github.com/esamson/mermaid-java/actions" -ForegroundColor Yellow
 

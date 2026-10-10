@@ -3,16 +3,18 @@ plugins {
     id 'application'
     id 'antlr'
 }
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+// GraalJS 25.x requires Java 17+
+sourceCompatibility = 25
+targetCompatibility = 25
 compileJava.options.encoding = 'UTF-8'
 compileTestJava.options.encoding = 'UTF-8'
 repositories {
     mavenCentral()
 }
 dependencies {
-    implementation 'org.graalvm.sdk:graal-sdk:21.2.0'
-    implementation 'org.graalvm.js:js:21.2.0'
+    implementation 'org.graalvm.polyglot:polyglot:25.3.4.1'
+    // js-community = GraalJS under the open-source (community) license
+    implementation 'org.graalvm.polyglot:js-community:25.3.4.1'
     // Apache Batik - SVG DOM + GVT tree for accurate getBBox() computation.
     implementation 'org.apache.xmlgraphics:batik-bridge:1.17'
     // Batik transcoder - needed by SvgRenderer (test utility) to rasterise SVG to BufferedImage
@@ -45,6 +47,10 @@ sourceSets {
 compileJava.dependsOn generateGrammarSource
 test {
     useJUnitPlatform()
+    // Truffle 25.x internal assertions (e.g. DynamicObjectSupport "before != after"
+    // on JS property deletes) fire under Gradle's default -ea; production JVMs
+    // run without assertions.
+    jvmArgs '-da:com.oracle.truffle...', '--enable-native-access=ALL-UNNAMED'
 }
 application {
     mainClassName = 'com.aresstack.mermaid.MermaidRendererMain'

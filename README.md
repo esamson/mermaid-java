@@ -1,3 +1,15 @@
+# Personal fork!
+
+This is my personal fork for trying out ideas on
+[aresstack/mermaid-java](https://github.com/aresstack/mermaid-java). Real work
+happens there.
+
+If changes here turn out to be more generally useful, we should work on merging
+them back upstream. Otherwise, I don't intend to maintain this beyond my
+personal needs.
+
+Don't use this. Use that.
+
 # mermaid-java
 Renders [Mermaid](https://mermaid.js.org/) diagram code to SVG or `BufferedImage` in **pure Java** — no browser, no Node.js, no native dependencies.  
 Internally uses GraalJS to execute the official Mermaid library and Apache Batik for accurate SVG text measurement and rasterisation.
@@ -6,19 +18,19 @@ Internally uses GraalJS to execute the official Mermaid library and Apache Batik
 - **Rasterisation** — SVG to `BufferedImage` at any resolution
 - **Layout Extraction** — extract typed node/edge models from rendered SVGs
 - **Source Editing** — ANTLR-based roundtrip editing of Mermaid source code
-- **Java 8 compatible** — runs on JRE 8+
+- **Java 17 compatible** — runs on JRE 17+
 ## Installation
 ### Maven
 ```xml
 <dependency>
-    <groupId>com.aresstack</groupId>
+    <groupId>ph.samson</groupId>
     <artifactId>mermaid-java</artifactId>
-    <version>0.2.0-beta.1</version>
+    <version>0.3.0-beta.2</version>
 </dependency>
 ```
 ### Gradle
 ```groovy
-implementation 'com.aresstack:mermaid-java:0.2.0-beta.1'
+implementation 'ph.samson:mermaid-java:0.3.0-beta.2'
 ```
 ## Quick Start
 No external files or Node.js required — the Mermaid JS engine is bundled inside the JAR.
@@ -193,7 +205,7 @@ Output: `src/main/resources/mermaid/mermaid.min.js`
 ```bash
 ./gradlew build
 ```
-Requires Java 8 JDK.
+Requires Java 17 JDK or newer.
 ## License
 This project is licensed under the [MIT License](LICENSE).
 ### Bundled third-party software
